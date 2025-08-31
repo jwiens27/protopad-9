@@ -15,7 +15,7 @@
             label = "DEFAULT";
             bindings = <
                 &kp t    &kp e    &kp s
-                &kp t    &kp 1    &kp Nf
+                &kp t    &kp 1    &kp f
                 &kp g    &kp b    &mo 1
             >;
         };
