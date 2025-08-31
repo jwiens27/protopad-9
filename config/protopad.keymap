@@ -14,9 +14,9 @@
         default_layer {
             label = "DEFAULT";
             bindings = <
-                &kp t    &kp e    &kp s
-                &kp t    &kp 1    &kp f
-                &kp g    &kp b    &mo 1
+                &kp A    &kp B    &kp C
+                &kp D    &kp E    &kp F
+                &kp G    &kp H    &mo 1
             >;
         };
         
@@ -24,7 +24,7 @@
             label = "FN";
             bindings = <
                 &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2
-                &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR
+                &bt BT_CLR    &bt BT_NXT    &bt BT_PRV
                 &sys_reset    &bootloader   &trans
             >;
         };
