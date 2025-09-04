@@ -80,9 +80,9 @@
     left_encoder: encoder_left {
         compatible = "alps,ec11";
         label = "LEFT_ENCODER";
-        a-gpios = <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // DT pin
-        b-gpios = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // CLK pin
-        resolution = <4>;  // Adjust: 1=most sensitive, 4=standard, higher=less sensitive
+        a-gpios = <&gpio1 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;  // DT pin
+        b-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;  // CLK pin
+        resolution = <1>;  // Adjust: 1=most sensitive, 4=standard, higher=less sensitive
         status = "okay";
     };
     
