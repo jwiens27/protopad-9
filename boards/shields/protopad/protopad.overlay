@@ -2,9 +2,10 @@
  * Copyright (c) 2024 Joshua Wiens
  * SPDX-License-Identifier: MIT
  * 
- * 3x3 Matrix Configuration
+ * 3x3 Matrix Configuration + Rotary Encoder
  * Columns: Pins 17, 20, 22 (all on GPIO port 0)
  * Rows: Pin 24 (GPIO 0.24), Pin 100 (GPIO 1.00), Pin 11 (GPIO 0.11)
+ * Encoder: SW=Pin 111 (GPIO 1.11), DT=Pin 113 (GPIO 1.13), CLK=Pin 115 (GPIO 1.15)
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>
@@ -18,17 +19,37 @@
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <3>;
-        rows = <3>;
+        rows = <4>;  // Added a row for the encoder button
         map = <
             RC(0,0) RC(0,1) RC(0,2)
             RC(1,0) RC(1,1) RC(1,2)
             RC(2,0) RC(2,1) RC(2,2)
+            RC(3,0)  // Encoder button position
         >;
     };
 
     kscan0: kscan_0 {
-        compatible = "zmk,kscan-gpio-matrix";
+        compatible = "zmk,kscan-composite";
         label = "KSCAN";
+        rows = <4>;
+        columns = <3>;
+        
+        // Matrix for 9 buttons
+        matrix {
+            kscan = <&kscan_matrix>;
+        };
+        
+        // Direct GPIO for encoder button
+        direct {
+            kscan = <&kscan_direct>;
+            row-offset = <3>;
+            column-offset = <0>;
+        };
+    };
+    
+    kscan_matrix: kscan_matrix {
+        compatible = "zmk,kscan-gpio-matrix";
+        label = "KSCAN_MATRIX";
         
         diode-direction = "col2row";
         poll-period-ms = <10>;
@@ -44,5 +65,29 @@
             , <&gpio1 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             , <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
+    };
+    
+    kscan_direct: kscan_direct {
+        compatible = "zmk,kscan-gpio-direct";
+        label = "KSCAN_DIRECT";
+        
+        input-gpios
+            = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            ;
+    };
+    
+    // Rotary encoder configuration
+    left_encoder: encoder_left {
+        compatible = "alps,ec11";
+        label = "LEFT_ENCODER";
+        a-gpios = <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // DT pin
+        b-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // CLK pin
+        resolution = <4>;  // Adjust: 1=most sensitive, 4=standard, higher=less sensitive
+        status = "okay";
+    };
+    
+    sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <&left_encoder>;
     };
 };
