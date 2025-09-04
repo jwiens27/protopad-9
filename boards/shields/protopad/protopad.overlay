@@ -82,8 +82,8 @@
         label = "LEFT_ENCODER";
         a-gpios = <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // DT pin
         b-gpios = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // CLK pin
-        steps = <19>;  // steps per revolution
-        resolution = <4>;
+        steps = <80>;  // steps per revolution
+        //resolution = <4>;
         status = "okay";
     };
     
