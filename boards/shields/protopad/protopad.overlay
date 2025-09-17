@@ -82,7 +82,7 @@
         label = "LEFT_ENCODER";
         a-gpios = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // A on pin 111
         b-gpios = <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // B on pin 113
-        steps: <80>
+        steps = <80>
         resolution = <4>;
         status = "okay";
     };
