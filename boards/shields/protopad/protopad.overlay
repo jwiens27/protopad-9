@@ -2,13 +2,15 @@
  * Copyright (c) 2024 Joshua Wiens
  * SPDX-License-Identifier: MIT
  * 
- * 3x3 Matrix Configuration + Rotary Encoder
+ * 3x3 Matrix Configuration + Rotary Encoder with LED control
  * Columns: Pins 17, 20, 22 (all on GPIO port 0)
  * Rows: Pin 24 (GPIO 0.24), Pin 100 (GPIO 1.00), Pin 11 (GPIO 0.11)
- * Encoder: SW=Pin 115 (GPIO 1.15), DT=Pin 113 (GPIO 1.13), CLK=Pin 111 (GPIO 1.11)
+ * Encoder: SW=Pin 115 (GPIO 1.15), A=Pin 111 (GPIO 1.11), B=Pin 113 (GPIO 1.13)
+ * Blue LED: Pin 0.15 (nice!nano v2)
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>
+#include <dt-bindings/led/led.h>
 
 / {
     chosen {
@@ -19,7 +21,7 @@
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <3>;
-        rows = <4>;  // Added a row for the encoder button
+        rows = <4>;
         map = <
             RC(0,0) RC(0,1) RC(0,2)
             RC(1,0) RC(1,1) RC(1,2)
@@ -34,12 +36,10 @@
         rows = <4>;
         columns = <3>;
         
-        // Matrix for 9 buttons
         matrix {
             kscan = <&kscan_matrix>;
         };
         
-        // Direct GPIO for encoder button
         direct {
             kscan = <&kscan_direct>;
             row-offset = <3>;
@@ -72,7 +72,7 @@
         label = "KSCAN_DIRECT";
         
         input-gpios
-            = <&gpio1 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            = <&gpio1 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // SW on pin 115
             ;
     };
     
@@ -80,17 +80,24 @@
     left_encoder: encoder_left {
         compatible = "alps,ec11";
         label = "LEFT_ENCODER";
-        a-gpios = <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // DT pin
-        b-gpios = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // CLK pin
-        steps = <80>;  // steps per revolution
-        resolution = <2>;
+        a-gpios = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // A on pin 111
+        b-gpios = <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  // B on pin 113
+        steps: <80>
+        resolution = <4>;
         status = "okay";
     };
     
-    sensors: sensors {
+    sensors {
         compatible = "zmk,keymap-sensors";
         sensors = <&left_encoder>;
-        triggers-per-rotation = <20>;
     };
-
+    
+    // LED configuration for nice!nano blue LED
+    led_indicators {
+        compatible = "gpio-leds";
+        blue_led: led_0 {
+            gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;  // nice!nano v2 blue LED
+            label = "Blue LED";
+        };
+    };
 };
