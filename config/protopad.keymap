@@ -23,10 +23,8 @@
             #binding-cells = <0>;
             wait-ms = <0>;
             bindings = <
-
                 &kp L
                 &macro_wait_time 100
-                &led_off
             >;
         };
         
@@ -39,7 +37,6 @@
             bindings = <
                 &kp R
                 &macro_wait_time 100
-                &led_off
             >;
         };
         
