@@ -6,7 +6,6 @@
  * Columns: Pins 17, 20, 22 (all on GPIO port 0)
  * Rows: Pin 24 (GPIO 0.24), Pin 100 (GPIO 1.00), Pin 11 (GPIO 0.11)
  * Encoder: SW=Pin 115 (GPIO 1.15), A=Pin 111 (GPIO 1.11), B=Pin 113 (GPIO 1.13)
- * Blue LED: Pin 0.15 (nice!nano v2)
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>
@@ -92,12 +91,5 @@
         sensors = <&left_encoder>;
     };
     
-    // LED configuration for nice!nano blue LED
-    led_indicators {
-        compatible = "gpio-leds";
-        blue_led: led_0 {
-            gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;  // nice!nano v2 blue LED
-            label = "Blue LED";
-        };
-    };
+
 };

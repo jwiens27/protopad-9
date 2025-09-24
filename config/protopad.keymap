@@ -23,7 +23,7 @@
             #binding-cells = <0>;
             wait-ms = <0>;
             bindings = <
-                &led_on
+
                 &kp L
                 &macro_wait_time 100
                 &led_off
@@ -37,34 +37,19 @@
             #binding-cells = <0>;
             wait-ms = <0>;
             bindings = <
-                &led_on
                 &kp R
                 &macro_wait_time 100
                 &led_off
             >;
         };
         
-        // LED control behaviors
-        led_on: led_on {
-            compatible = "zmk,behavior-macro";
-            label = "LED_ON";
-            #binding-cells = <0>;
-            bindings = <&gpio_set 0 15 1>;  // Set GPIO 0.15 HIGH
-        };
-        
-        led_off: led_off {
-            compatible = "zmk,behavior-macro";
-            label = "LED_OFF";
-            #binding-cells = <0>;
-            bindings = <&gpio_set 0 15 0>;  // Set GPIO 0.15 LOW
-        };
     };
     keymap {
         compatible = "zmk,keymap";
         
         default_layer {
             bindings = <
-                &uc 0x1F638 0   &uc 0x2191 0    &uc 0x2248 0
+                &uc 0x00B0 0   &uc 0x2191 0    &uc 0x2248 0
                 &uc 0x2190 0    &uc 0x1F44D 0   &uc 0x2192 0
                 &uc 0x1F680 0   &uc 0x2193 0    &mo 1
                 &kp S  // Encoder button - outputs 'S' for "Switch" (easy to identify in testing)
